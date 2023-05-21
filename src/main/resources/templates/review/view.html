@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="/css/reviewView.css" rel="stylesheet">
+<title>후기 게시판 - 후기 상세 페이지</title>
+</head>
+
+<body>
+<div th:replace="fragments/bodyheader :: bodyheader"/>
+<div class="container" style="max-width: 800px">
+    <div class="button">
+        <button class="btn btn-outline-success"
+                    th:if="${review.getMember().getName()}==${member}"
+                    th:onclick="|location.href='@{|/review/modify/${review.reviewPostId}|}'|"  onclick="countTitle(); countContents();">수정</button>
+        <button class="btn btn-outline-danger"
+                th:if="${review.getMember().getName()}==${member}"
+                th:onclick="|location.href='@{|/review/delete/${review.reviewPostId}|}'|">삭제</button>
+        <button class="btn btn-outline-success" th:onclick="|location.href='@{/review/list}'|">목록으로</button></br>
+    </div>
+
+    <input type="hidden" id="reviewPostId" th:value="${reviewPostId}">
+
+    <div class="companyName">
+        <button class="badge badge-success" th:text="${review.company.getName()}" th:onclick="|location.href='@{|/companies/${review.getCompany().getId()}|}'|" >업체명</button><br/>
+        조회수 : <span id="view" th:text="${review.viewCount}" ></span>
+    </div>
+
+    <div class="memberName">
+        <div>
+            <span class="badge badge-success" th:text="${review.member.getName()}">작성자</span>
+        </div>
+        <input type="hidden" id="memberId" th:value="${memberId}">
+        <div class="like">
+            <img class="heart" src="/image/like_empty.png" alt="하트" width="30px" height="30px">
+            <img class="heart-liked" src="/image/like_click.png" alt="좋아요된 하트"  width="30px"
+                 height="30px">
+            <span id="like-count" th:text="${review.likeCount}"></span>
+        </div>
+    </div>
+
+    <div class="list">
+        <div > 다음글 ▲:
+            <span id="previousPost" th:if="${previousPost != null}">
+                <a th:onclick="|location.href='@{/review/view/?reviewPostId={reviewPostId}(reviewPostId=${previousPost.reviewPostId})}'|">
+                   <span th:text="|[${previousPost.name}]|+ ' ' + ${previousPost.reviewPostTitle}"></span></a>
+            </span>
+            <span th:if="${previousPost == null}">
+                 <span>다음글이 없습니다.</span>
+            </span>
+        </div>
+        <hr>
+        <div > 이전글 ▼:
+            <span id="nextPost" th:if="${nextPost != null}">
+                <a th:onclick="|location.href='@{/review/view/?reviewPostId={reviewPostId}(reviewPostId=${nextPost.reviewPostId})}'|">
+                    <span th:text="|[${nextPost.name}]|+ ' ' + ${nextPost.reviewPostTitle}"></span></a>
+            </span>
+            <span th:if="${nextPost == null}">
+            <span>이전글이 없습니다.</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="reviewPostTitle">
+        <span th:text="${review.reviewPostTitle}" id="reviewPostTitle"  name="reviewPostTitle" type="text"  oninput="countTitle()" maxlength="15">제목</span><br/>
+    </div>
+
+    <div class="reviewPostContent">
+        <img name="file1" id="file1" th:src="|/review/images/${review.reviewPostImg1}|" width="300" height="300"/>
+        <img name="file2" id="file2" th:src="|/review/images/${review.reviewPostImg2}|" width="300" height="300"/><br/>
+        <span th:text="${review.reviewPostContent}" id="reviewPostContent" name="reviewPostContent" oninput="countContents()" maxlength="1000">내용</span><br/>
+    </div>
+
+</div>
+<div th:replace="fragments/bodyfooter :: bodyfooter"/>
+</body>
+</html>
+<script th:inline="javascript">
+
+    let reviewLikeList = [[${reviewLikeList}]];
+    let memberId = document.querySelector("#memberId").value;
+    let reviewPostId = document.querySelector("#reviewPostId").value;
+    let reviewPost = [[${review}]];
+    let likeCount = document.querySelector("#like-count");
+
+    let likeBtn = document.querySelector('.heart');
+    let likedBtn = document.querySelector('.heart-liked');
+
+
+    likeBtn.hidden= false;
+    likedBtn.hidden = true;
+
+    for (let i = 0 ; i < reviewLikeList.length; i++) {
+        if(reviewLikeList[i].member.id == memberId && reviewLikeList[i].reviewPost.reviewPostId == reviewPostId) {
+            likeBtn.hidden= true;
+            likedBtn.hidden = false;
+        }
+    }
+
+
+    like = document.querySelectorAll('.like');
+    like.forEach(function (event) {
+        event.addEventListener('click',
+            function () {
+            if(memberId == reviewPost.member.id){
+                alert("본인 게시물에는 좋아요를 누를 수 없습니다.");
+            } else if (memberId !== 0) {
+                    processLike();
+                }
+            });
+
+        async function processLike() {
+
+            let response = await fetch("http://localhost:8080/review/like", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    memberId: memberId,
+                    reviewPostId: reviewPostId,
+                })
+            });
+
+            let data = await response.json();
+            console.log(data)
+
+            console.log(data.like)
+            if (data.like !== 0) {
+                likeCount.textContent = Number(likeCount.textContent) + 1;
+              likeBtn.hidden= true;
+              likedBtn.hidden = false;
+            } else {
+                likeCount.textContent = Number(likeCount.textContent) - 1;
+                likeBtn.hidden= false;
+                likedBtn.hidden = true;
+            }
+        }
+    });
+
+    function countTitle() {
+        const input = document.getElementById("reviewPostTitle");
+        const count = input.value.length;
+        const titleCount = document.getElementById("titleCount");
+        titleCount.textContent = count + "/15자";
+
+        if(count > 15) {
+            alert("제목은 15자까지 입력해 주세요.");
+            titleCount.value = titleCount.value.substring(0, 15);// 초과한 부분 제거
+            titleCount.textContent = "15/15자"
+        }
+    }
+
+    function countContents() {
+        const textarea = document.getElementById("reviewPostContent");
+        const contentCount = document.getElementById('contentCount');
+        const count = textarea.value.length;
+        const maxLength = parseInt(textarea.getAttribute('maxlength'));
+        contentCount.textContent = count + '/' + maxLength + '자';
+
+        if(count > 1000) {
+            alert("내용은 1000자까지 입력해 주세요.");
+            textarea.value = textarea.value.substring(0, 1000);// 초과한 부분 제거
+            contentCount.textContent = "1000/1000자"
+        }
+    }
+
+
+</script>
+

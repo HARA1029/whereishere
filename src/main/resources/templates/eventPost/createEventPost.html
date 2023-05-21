@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"
+      th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css}"
+      rel="stylesheet">
+<link href="/css/createEventPost.css" rel="stylesheet">
+<title>Title</title>
+
+<body>
+<div th:replace="fragments/bodyheader :: bodyheader"/>
+<form th:action method="post" enctype="multipart/form-data" class="grid-form">
+    <div class="modify">
+        <button class="btn btn-outline-success" type="submit">작성</button>
+    </div>
+    <div class="eventTitle">
+        <label for="eventPostTitle" class="title">제목</label>
+        <input name="eventPostTitle" type="text" id="eventPostTitle">
+    </div>
+    <div class="eventPostContent" id="previewImg">
+        <img id="eventPostContent">
+    </div>
+    <textarea name="eventPostContent" class="eventPostContent"></textarea>
+    <div class="eventPostImgs">
+        <label for="eventPostImgs" class="imgs">이미지 첨부</label>
+        <input type="file" name="eventPostImgs" id="eventPostImgs">
+        <details>
+            <summary>파일명</summary>
+            <li id="preview"></li>
+        </details>
+    </div>
+</form>
+<div th:replace="fragments/bodyfooter :: bodyfooter"/>
+
+</body>
+</html>
+<script>
+
+
+    let fileInput
+    let preview
+    const handler = {
+        init() {
+            fileInput = document.querySelector('#eventPostImgs');
+            preview = document.querySelector('#preview');
+            fileInput.addEventListener('change', () => {
+                if (fileInput.value.slice(-3) !== "jpg" && fileInput.value.slice(-3) !== "png" && fileInput.value.slice(-3) !== "jpeg") {
+                    alert("이미지는 'jpg, 'jpeg' ,'png' 형식만 지원합니다.")
+                    fileInput.value = '';
+                } else if (fileInput.files[0].size >= 5000000) {
+                    alert("이미지는 5MB를 넘을 수 없습니다.")
+                    fileInput.value = '';
+                } else {
+                    console.dir(fileInput)
+                    const files = Array.from(fileInput.files)
+                    files.forEach(file => {
+                        preview.innerHTML += `
+                        <p id="${file.lastModified}">
+                            ${file.name}
+                        </p>`;
+                    });
+                }
+            });
+        }
+    }
+    handler.init()
+</script>

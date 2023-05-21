@@ -1,0 +1,191 @@
+.grid-form {
+    display: grid;
+    grid-template-columns: 1fr 400px 400px 1fr;
+    grid-template-rows: 50px 50px 50px 40px 50px 300px 300px;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    ". . . ."
+    ". button button ."
+    ". reviewPost reviewPost ."
+    ". companyName companyName ."
+    ". reviewPostTitle reviewPostTitle ."
+    ". reviewPostContent reviewPostContent ."
+    ". reviewImg1 reviewImg2 .";
+    justify-items: stretch;
+    align-items: stretch;
+}
+
+.button {
+    grid-area: button;
+    align-self: center;
+    margin-left: 30px;
+    justify-self: flex-start;
+}
+.button:hover {
+    background-color:white;
+}
+
+.reviewPost {
+    grid-area: reviewPost;
+    align-self: center;
+    justify-self: center;
+}
+
+.companyName {
+    grid-area: companyName;
+    align-self: center;
+    justify-self: normal;
+
+}
+select {
+    margin-left: 5rem;
+}
+
+input#autocompleteCompany {
+    border: none;
+    width: 650px;
+    border-bottom: 1px solid black;
+    padding: 0;
+    outline: none;
+    margin-left: -0.5rem;
+}
+
+.reviewPostTitle {
+    grid-area: reviewPostTitle;
+    align-self: center;
+    justify-self: normal;
+}
+
+input#reviewPostTitle{
+    width: 650px;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 0;
+    outline: none;
+}
+
+input#reviewPostTitle:focus,
+input#reviewPostTitle:hover,
+input#autocompleteCompany:focus,
+input#autocompleteCompany:hover{
+    border-bottom: 2px solid black;
+}
+
+.reviewPostContent {
+    display: flex;
+    justify-content: space-between;
+    grid-area: reviewPostContent;
+    width:100%;
+    justify-self: center;
+}
+
+.reviewImg1 {
+    grid-area: reviewImg1;
+    align-self: center;
+    justify-self: center;
+    margin-left: 22rem;
+    margin-top: 10rem;
+}
+
+.reviewImg2 {
+    grid-area: reviewImg2;
+    align-self: center;
+    justify-self: center;
+    margin-left: -3rem;
+    margin-top: 12rem;
+}
+
+textarea {
+    width : 100%;
+    margin-top : 10px;
+    min-height : 300px;
+    resize: none;
+}
+
+label {
+    width: 10%;
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 0px;
+    padding-right: 10px;
+}
+
+#reviewPostContent {
+    width : 800px;
+    margin-top : 10px;
+    min-height : 300px;
+    resize: none;
+}
+
+img {
+    width: 300px;
+    height: 300px;
+}
+
+.reviewPostTitle {
+    display: flex;
+    align-items: center;
+}
+
+.reviewPostTitle .titleInputContainer {
+    display: flex;
+    align-items: center;
+}
+
+.reviewPostTitle .titleInputContainer input {
+    margin-right: 10px;
+}
+
+.reviewPostContent {
+    display: flex;
+    align-items: center;
+}
+
+ .input-file-button1 {
+     width: 100px;
+     height: 38px;
+     background: #fff;
+     border: 1px solid #28a745;
+     border-radius: 0.25rem;
+     font-weight: 500;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: #28a745;
+     padding-right: 3px;
+ }
+
+.input-file-button2 {
+    width: 100px;
+    height: 38px;
+    background: #fff;
+    border: 1px solid #28a745;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #28a745;
+    padding-right: 3px;
+}
+
+.input-file-button1:hover  {
+     background: #28a745;
+     color: #fff;
+ }
+
+.input-file-button2:hover {
+    background: #28a745;
+    color: #fff;
+}
+
+
+#file1 {
+    display: none;
+}
+#file2 {
+    display: none;
+}

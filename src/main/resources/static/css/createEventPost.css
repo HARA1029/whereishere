@@ -1,0 +1,76 @@
+.grid-form {
+    display: grid;
+    grid-template-columns: 1fr 400px 400px 1fr;
+    grid-template-rows: 50px 50px 50px 150px 500px;
+    grid-auto-columns: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    ". . . ."
+    ". modify modify ."
+    ". eventTitle eventTitle ."
+    ". eventPostImgs eventPostImgs ."
+    ". eventPostContent eventPostContent .";
+    justify-items: stretch;
+    align-items: stretch;
+}
+
+.modify {
+    grid-area: modify;
+    align-self: center;
+    margin-left: 30px;
+    justify-self: flex-start;
+}
+
+.eventTitle {
+    grid-area: eventTitle;
+    align-self: center;
+    justify-self: normal;
+}
+
+input#eventPostTitle {
+    width: 700px;
+    border: none;
+    border-bottom: 1px solid black;
+    padding: 0;
+    outline: none;
+}
+
+input#eventPostTitle:focus,
+input#eventPostTitle:hover {
+    border-bottom: 2px solid black;
+}
+
+.eventPostContent {
+    width: 800px;
+    grid-area: eventPostContent;
+    justify-self: center;
+}
+
+.eventPostImgs {
+    grid-area: eventPostImgs;
+    justify-self: first;
+}
+
+#preview {
+    font-size: 10px;
+}
+li {
+    height: 80px; /* div의 높이를 지정합니다. */
+    overflow-y: auto; /* 수직 스크롤바를 활성화 합니다. */
+}
+
+label {
+    width: 10%;
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 0px;
+    padding-right: 10px;
+}
+
+textarea.eventPostContent {
+    width: 800px;
+    height: 400px;
+    resize: none;
+    overflow: scroll;
+}

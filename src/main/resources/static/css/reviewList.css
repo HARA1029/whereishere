@@ -1,0 +1,124 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1000px 1fr;
+    grid-template-rows: 50px 50px 160px 850px 30px;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    ". reviewPost ."
+    ". button-container ."
+    ". reviewPostCategory ."
+    ". reviewPostList ."
+    ". page .";
+    justify-items: stretch;
+    align-items: stretch;
+}
+
+.reviewPost {
+    grid-area: reviewPost;
+    font-size: 50px;
+    justify-self: center;
+    padding-top : 50px;
+}
+
+.reviewPostCategory {
+    grid-area: reviewPostCategory;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    justify-self: center;
+    align-self: center;
+    padding-top:60px
+}
+
+.reviewPostList {
+    grid-template-columns: 100%;
+    grid-template-rows: 130px 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    margin-bottom: 0;
+    margin-top: 40px;
+    grid-area: reviewPostList;
+    row-gap: 10px;
+    word-wrap: break-word;
+    justify-self: center;
+    width: 100%;
+}
+
+.reviewPostList tr:last-child td {
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.5rem;
+}
+
+.reviewPostContent {
+    cursor: pointer;
+    grid-template-columns: 85px 500px 200px 130px 85px;
+}
+
+.reviewPostContent:hover {
+    background-color: green;
+    color: white;
+}
+
+.container input {
+    width: 280px;
+    height: 38px;
+}
+
+th {
+    text-align: center;
+}
+
+td{
+    text-align: center;
+}
+
+.page {
+    text-align: center;
+}
+
+button {
+    margin-bottom: 5px;
+}
+
+.table{
+    margin-bottom: 0;
+    /*table-layout: fixed;*/
+    width: 100%;
+}
+
+/*.active {*/
+/*    display: inline-block;*/
+/*    padding: 0.5rem;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*    background-color: #ccc;*/
+/*    color: white;*/
+/*}*/
+
+strong {
+    display: inline-block;
+    width: 2rem; /* 너비와 높이를 같게 설정 */
+    height: 2rem;
+    padding: 0.5rem;
+    border: 2px solid green;
+    border-radius: 5px;
+    text-align: center;
+    height: 30px;
+    line-height: 10px;
+}
+
+a {
+    color: black;
+}
+
+.button-container {
+    white-space: nowrap;
+}
+
+.mb-4, .my-4 {
+    margin-bottom: 1.5rem !important;
+    margin-top: 30px;
+}

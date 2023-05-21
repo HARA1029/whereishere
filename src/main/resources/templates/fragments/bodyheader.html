@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<header th:fragment="bodyheader" class="body_header">
+    <a href="/main" class="body_href_logo"><img src="/image/LOGO.png" class="body_logo"></a>
+
+    <div class="topmenu">
+        <a href="/home" th:classappend="${#request.getRequestURI() == '/home'} ? 'topmenusource active' : 'topmenusource'"> 지도 찾기 </a>
+<!--        <span class="contour">|</span>-->
+        <a href="/searchcompanylist" th:classappend="${#request.getRequestURI() == '/searchcompanylist'} ? 'topmenusource active' : 'topmenusource'"> 업체 정보 </a>
+<!--        <span class="contour">|</span> -->
+        <a href="/events/eventPost" th:classappend="${#request.getRequestURI() == '/events/eventPost'} ? 'topmenusource active' : 'topmenusource'"> 이벤트 게시판 </a>
+<!--        <span class="contour">|</span>-->
+        <a href="/review/list" th:classappend="${#request.getRequestURI() == '/review/list'} ? 'topmenusource active' : 'topmenusource'">후기 게시판</a>
+    </div>
+
+    <div class="body_header_dropdown">
+        <button class="body_header_dropbtn">Menu ▼</button>
+        <div class="body_header_dropdown-content">
+            <a href="/home">지도 찾기</a>
+            <a href="/searchcompanylist">업체 정보</a>
+            <a href="/events/eventPost">이벤트 게시판</a>
+            <a href="/review/list">후기 게시판</a>
+        </div>
+    </div>
+
+    <div class="login_info">
+        <div sec:authorize="isAuthenticated()" th:text="${#authentication.principal.username} + '님'" style="font-size:15px;"></div>
+        <button class="button" th:onclick="|location.href='@{/logout}'|" style="margin-left:10px;">로그아웃</button>
+    </div>
+
+</header>
